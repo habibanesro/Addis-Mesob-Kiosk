@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="am">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Addis Mesob One Center</title>
+
+    <link rel="stylesheet" href="css/style.css">
+</head>
+
+<body>
+
+<div class="header">
+
+    <img src="images/addis-mesob-logo.png" class="logo">
+
+    <div class="title">
+        <h1>ADDIS MESOB</h1>
+        <h2>ONE CENTER DIGITAL GOVERNMENT SERVICE</h2>
+    </div>
+
+    <div class="datetime">
+        <div id="date"></div>
+        <div id="time"></div>
+    </div>
+
+</div>
+
+
+<div class="mode">
+    <button onclick="toggleDarkMode()">🌙 Dark Mode</button>
+</div>
+
+
+<div class="container">
+
+    <h1 class="welcome">
+        እንኳን ወደ አዲስ መሶብ አንድ ማዕከል ዲጂታል መንግስታዊ አገልግሎት በደህና መጡ
+    </h1>
+
+
+    <h2>
+        የሚፈልጉትን ወለል ይምረጡ
+    </h2>
+
+
+    <div class="floor-buttons">
+
+
+        <button onclick="openFloor(1)">
+            🏢
+            <span>1ኛ ፎቅ</span>
+        </button>
+
+
+        <button onclick="openFloor(2)">
+            🏢
+            <span>2ኛ ፎቅ</span>
+        </button>
+
+
+        <button onclick="openFloor(3)">
+            🏢
+            <span>3ኛ ፎቅ</span>
+        </button>
+
+
+        <button onclick="openFloor(4)">
+            🏢
+            <span>4ኛ ፎቅ</span>
+        </button>
+
+
+    </div>
+
+
+</div>
+
+
+
+<footer>
+
+    <p>
+        Addis Mesob One Center Digital Government Service
+    </p>
+
+</footer>
+
+
+
+<script>
+
+
+function openFloor(floor){
+
+    localStorage.setItem("selectedFloor", floor);
+
+    window.location.href="organization.html";
+
+}
+
+
+
+function toggleDarkMode(){
+
+    document.body.classList.toggle("dark");
+
+    localStorage.setItem(
+        "darkMode",
+        document.body.classList.contains("dark")
+    );
+
+}
+
+
+
+function updateDateTime(){
+
+    let now = new Date();
+
+
+    let date = now.toLocaleDateString(
+        'am-ET',
+        {
+            year:"numeric",
+            month:"long",
+            day:"numeric"
+        }
+    );
+
+
+    let time = now.toLocaleTimeString(
+        'en-US',
+        {
+            hour:"2-digit",
+            minute:"2-digit",
+            second:"2-digit"
+        }
+    );
+
+
+    document.getElementById("date").innerHTML=date;
+
+    document.getElementById("time").innerHTML=time;
+
+}
+
+
+
+setInterval(updateDateTime,1000);
+
+updateDateTime();
+
+
+
+if(localStorage.getItem("darkMode")=="true"){
+
+    document.body.classList.add("dark");
+
+}
+
+
+
+</script>
+
+
+
+</body>
+</html>

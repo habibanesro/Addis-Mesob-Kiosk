@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="am">
+
+<head>
+
+<meta charset="UTF-8">
+<title>Organizations</title>
+
+<link rel="stylesheet" href="css/style.css">
+
+</head>
+
+
+<body>
+
+
+<div class="header">
+
+<img src="images/addis-mesob-logo.png" class="logo">
+
+<h1>ADDIS MESOB ONE CENTER</h1>
+
+<div class="datetime">
+<div id="date"></div>
+<div id="time"></div>
+</div>
+
+</div>
+
+
+
+<h1 class="page-title">
+የድርጅቶች ዝርዝር
+</h1>
+
+
+<div id="organizations" class="cards"></div>
+
+
+
+<button class="back" onclick="history.back()">⬅ ተመለስ</button>
+
+
+
+<script src="js/data.js"></script>
+
+
+<script>
+
+
+let floor=localStorage.getItem("selectedFloor");
+
+
+let selected=floors.find(x=>x.id==floor);
+
+
+
+let box=document.getElementById("organizations");
+
+
+
+selected.organizations.forEach((org,index)=>{
+
+
+box.innerHTML+=`
+
+<div class="card" onclick="openService(${index})">
+
+<img src="${org.logo}">
+
+<h2>${org.name}</h2>
+
+</div>
+
+`;
+
+});
+
+
+
+function openService(i){
+
+localStorage.setItem("organization",i);
+
+window.location="service.html";
+
+}
+
+
+
+</script>
+
+
+</body>
+</html>

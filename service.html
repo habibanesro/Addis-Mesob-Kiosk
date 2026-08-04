@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+
+<html lang="am">
+
+<head>
+
+<meta charset="UTF-8">
+
+<title>Services</title>
+
+<link rel="stylesheet" href="css/style.css">
+
+</head>
+
+
+<body>
+
+
+<div class="header">
+
+<img src="images/addis-mesob-logo.png" class="logo">
+
+<h1>Services</h1>
+
+</div>
+
+
+<h1 class="page-title">
+የሚገኙ አገልግሎቶች
+</h1>
+
+
+
+<div id="services" class="cards"></div>
+
+
+
+<button class="back" onclick="history.back()">
+⬅ ተመለስ
+</button>
+
+
+
+<script src="js/data.js"></script>
+
+
+<script>
+
+
+let floor=localStorage.getItem("selectedFloor");
+
+let orgIndex=localStorage.getItem("organization");
+
+
+let org=floors
+.find(x=>x.id==floor)
+.organizations[orgIndex];
+
+
+let box=document.getElementById("services");
+
+
+
+org.services.forEach(service=>{
+
+
+box.innerHTML+=`
+
+<div class="card service">
+
+<h2>${service}</h2>
+
+<p>
+መረጃ እና መስፈርት በቅርቡ ይጨመራል
+</p>
+
+</div>
+
+`;
+
+
+});
+
+
+</script>
+
+
+</body>
+</html>
