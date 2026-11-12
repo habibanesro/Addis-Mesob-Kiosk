@@ -1,169 +1,121 @@
+
 <!DOCTYPE html>
 <html lang="am">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Addis Mesob One Center</title>
-
+    <title>Addis Mesob - Kolfe Branch</title>
     <link rel="stylesheet" href="css/style.css">
 </head>
 
 <body>
 
-<div class="header">
+ <header class="header">
 
-    <img src="images/addis-mesob-logo.png" class="logo">
-
-    <div class="title">
-        <h1>ADDIS MESOB</h1>
-        <h2>ONE CENTER DIGITAL GOVERNMENT SERVICE</h2>
+    <div class="header-left">
+        <h2>KOLFE CENTER</h2>
     </div>
 
-    <div class="datetime">
-        <div id="date"></div>
-        <div id="time"></div>
+    <div class="header-center">
+        <img src="images/Logo.png"
+             class="logo"
+             alt="Addis Mesob Logo">
+
+        <div class="header-title">
+            <h1>ADDIS MESOB</h1>
+            <h2>ONE CENTER DIGITAL GOVERNMENT SERVICE</h2>
+        </div>
     </div>
 
-</div>
-
-
-<div class="mode">
-    <button onclick="toggleDarkMode()">🌙 Dark Mode</button>
-</div>
-
-
-<div class="container">
-
-    <h1 class="welcome">
-        እንኳን ወደ አዲስ መሶብ አንድ ማዕከል ዲጂታል መንግስታዊ አገልግሎት በደህና መጡ
-    </h1>
-
-
-    <h2>
-        የሚፈልጉትን ወለል ይምረጡ
-    </h2>
-
-
-    <div class="floor-buttons">
-
-
-        <button onclick="openFloor(1)">
-            🏢
-            <span>1ኛ ፎቅ</span>
-        </button>
-
-
-        <button onclick="openFloor(2)">
-            🏢
-            <span>2ኛ ፎቅ</span>
-        </button>
-
-
-        <button onclick="openFloor(3)">
-            🏢
-            <span>3ኛ ፎቅ</span>
-        </button>
-
-
-        <button onclick="openFloor(4)">
-            🏢
-            <span>4ኛ ፎቅ</span>
-        </button>
-
-
+    <div class="header-right">
+        <div id="current-date"></div>
+        <div id="current-time"></div>
     </div>
 
+</header>
 
-</div>
+    <main class="main-content">
 
+        <div class="welcome-section">
+            <h1>እንኳን ወደ አዲስ መሶብ በደህና መጡ</h1>
 
+            <p>የሚፈልጉትን ወለል በመምረጥ የሚገኙ አገልግሎቶችንና
+                መስፈርቶችን ይመልከቱ</p>
+        </div>
 
-<footer>
+        <div class="floor-buttons">
 
-    <p>
-        Addis Mesob One Center Digital Government Service
-    </p>
+            <button onclick="openFloor(1)">
+                <!-- <span class="floor-number">01</span> -->
+                <span class="floor-name">🏢1ኛ ፎቅ</span>
+                <span class="floor-description">FIRST FLOOR</span>
+            </button>
 
-</footer>
+            <button onclick="openFloor(2)">
+                <!-- <span class="floor-number">02</span> -->
+                <span class="floor-name">🏢2ኛ ፎቅ</span>
+                <span class="floor-description">SECOND FLOOR</span>
+            </button>
 
+            <button onclick="openFloor(3)">
+                <!-- <span class="floor-number">03</span> -->
+                <span class="floor-name">🏢3ኛ ፎቅ</span>
+                <span class="floor-description">THIRD FLOOR</span>
+            </button>
 
+            <button onclick="openFloor(4)">
+                <!-- <span class="floor-number">04</span> -->
+                <span class="floor-name">🏢4ኛ ፎቅ</span>
+                <span class="floor-description">FOURTH FLOOR</span>
+            </button>
 
-<script>
+        </div>
 
+    </main>
 
-function openFloor(floor){
+    <footer class="main-footer">
+        <div class="footer-content">
+            <div>
+                <strong>ADDIS MESOB</strong>
+                <span>ONE CENTER DIGITAL GOVERNMENT SERVICE</span>
+            </div>
 
-    localStorage.setItem("selectedFloor", floor);
+            <div class="footer-right">
+                <span>Customer Information & Service Guide</span>
+                <span>Kolfe Branch | Addis Ababa, Ethiopia</span>
+            </div>
+        </div>
+    </footer>
 
-    window.location.href="organization.html";
-
-}
-
-
-
-function toggleDarkMode(){
-
-    document.body.classList.toggle("dark");
-
-    localStorage.setItem(
-        "darkMode",
-        document.body.classList.contains("dark")
-    );
-
-}
-
-
-
-function updateDateTime(){
-
-    let now = new Date();
-
-
-    let date = now.toLocaleDateString(
-        'am-ET',
-        {
-            year:"numeric",
-            month:"long",
-            day:"numeric"
+    <script>
+        function openFloor(floor) {
+            localStorage.setItem("selectedFloor", floor);
+            window.location.href = "organization.html";
         }
-    );
 
+function updateDateTime() {
+    const now = new Date();
 
-    let time = now.toLocaleTimeString(
-        'en-US',
-        {
-            hour:"2-digit",
-            minute:"2-digit",
-            second:"2-digit"
-        }
-    );
+    document.getElementById("current-date").textContent =
+        now.toLocaleDateString("en-GB", {
+            weekday: "long",
+            year: "numeric",
+            month: "long",
+            day: "numeric"
+        });
 
-
-    document.getElementById("date").innerHTML=date;
-
-    document.getElementById("time").innerHTML=time;
-
+    document.getElementById("current-time").textContent =
+        now.toLocaleTimeString("en-GB", {
+            hour: "2-digit",
+            minute: "2-digit",
+            second: "2-digit",
+            hour12: false
+        });
 }
-
-
-
-setInterval(updateDateTime,1000);
 
 updateDateTime();
-
-
-
-if(localStorage.getItem("darkMode")=="true"){
-
-    document.body.classList.add("dark");
-
-}
-
-
-
+setInterval(updateDateTime, 1000);
 </script>
-
-
-
 </body>
 </html>

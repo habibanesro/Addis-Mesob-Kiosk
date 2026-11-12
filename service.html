@@ -1,89 +1,309 @@
+
 <!DOCTYPE html>
-
 <html lang="am">
-
 <head>
-
-<meta charset="UTF-8">
-
-<title>Services</title>
-
-<link rel="stylesheet" href="css/style.css">
-
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Services - Addis Mesob</title>
+    <link rel="stylesheet" href="css/style.css">
 </head>
-
 
 <body>
 
+<header class="header">
 
-<div class="header">
+    <div class="header-left">
+        <h2>KOLFE CENTER</h2>
+    </div>
 
-<img src="images/addis-mesob-logo.png" class="logo">
+    <div class="header-center">
+        <img src="images/Logo.png"
+             class="logo"
+             alt="Addis Mesob Logo">
 
-<h1>Services</h1>
+        <div class="header-title">
+            <h1>ADDIS MESOB</h1>
+            <h2>ONE CENTER DIGITAL GOVERNMENT SERVICE</h2>
+        </div>
+    </div>
 
-</div>
+    <div class="header-right">
+        <div id="current-date"></div>
+        <div id="current-time"></div>
+    </div>
 
+</header>
 
-<h1 class="page-title">
-የሚገኙ አገልግሎቶች
-</h1>
+<main class="main-content">
 
+    <div class="welcome-section">
+        <h1 id="org-title">የሚገኙ አገልግሎቶች</h1>
+        <p>አገልግሎቱን በመጫን የሚያስፈልጉ መስፈርቶችን ይመልከቱ</p>
+    </div>
 
+    <div id="services" class="cards"></div>
 
-<div id="services" class="cards"></div>
+    <!-- Requirements panel -->
+    <div id="requirements" class="requirements-box" hidden>
 
+        <h2 id="service-name"></h2>
 
+        <h3 id="requirements-heading">
+            ለአገልግሎቱ የሚያስፈልጉ መስፈርቶች
+        </h3>
 
-<button class="back" onclick="history.back()">
-⬅ ተመለስ
-</button>
+        <div id="requirement-list"></div>
 
+    </div>
 
+    <button class="back" onclick="window.location.href='organization.html'">
+        ← ወደ ድርጅቶች ተመለስ
+    </button>
+
+</main>
+
+<footer class="main-footer">
+
+    <div class="footer-content">
+
+        <div>
+            <strong>ADDIS MESOB</strong>
+            <span>ONE CENTER DIGITAL GOVERNMENT SERVICE</span>
+        </div>
+
+        <div class="footer-right">
+            <span>Customer Information & Service Guide</span>
+            <span>Kolfe Branch | Addis Ababa, Ethiopia</span>
+        </div>
+
+    </div>
+
+</footer>
 
 <script src="js/data.js"></script>
 
-
 <script>
 
+// GET SELECTED FLOOR AND ORGANIZATION
 
-let floor=localStorage.getItem("selectedFloor");
+const floor = localStorage.getItem("selectedFloor");
+const orgIndex = localStorage.getItem("organization");
 
-let orgIndex=localStorage.getItem("organization");
+const selectedFloor = floors.find(x => x.id == floor);
+const org = selectedFloor?.organizations[orgIndex];
 
-
-let org=floors
-.find(x=>x.id==floor)
-.organizations[orgIndex];
-
-
-let box=document.getElementById("services");
+const box = document.getElementById("services");
 
 
+// DISPLAY SERVICES
 
-org.services.forEach(service=>{
+if (!org) {
+
+    box.innerHTML = "<h2>መረጃ አልተገኘም</h2>";
+
+} else {
+
+    document.getElementById("org-title").textContent = org.name;
+
+    if (!org.services || org.services.length === 0) {
+
+        box.innerHTML = "<h2>አገልግሎቶች በቅርቡ ይጨመራሉ</h2>";
+
+    } else {
+
+        org.services.forEach((service, index) => {
+
+            const name = typeof service === "string"
+                ? service
+                : service.name;
+
+            const card = document.createElement("div");
+            card.className = "card service";
+
+            const heading = document.createElement("h2");
+            heading.textContent = name;
+
+            const description = document.createElement("p");
+
+const requirements = typeof service === "string"
+    ? []
+    : (service.requirements || []);
+
+const hasRequirements =
+    (Array.isArray(requirements) && requirements.length > 0) ||
+    (
+        requirements &&
+        typeof requirements === "object" &&
+        !Array.isArray(requirements) &&
+        Object.keys(requirements).length > 0
+    );
+
+        if (hasRequirements) {
+            description.textContent = "መስፈርቶቹን ለማየት ይጫኑ።";
+            card.append(heading, description);
+        } else {
+            card.appendChild(heading);
+        }
+
+            card.onclick = () => showRequirements(index);
+
+            box.appendChild(card);
+
+        });
+
+    }
+}
 
 
-box.innerHTML+=`
+// DISPLAY REQUIREMENTS
 
-<div class="card service">
+function showRequirements(index) {
 
-<h2>${service}</h2>
+    const service = org.services[index];
 
-<p>
-መረጃ እና መስፈርት በቅርቡ ይጨመራል
-</p>
+    const name = typeof service === "string"
+        ? service
+        : service.name;
 
-</div>
+    const requirements = typeof service === "string"
+        ? []
+        : (service.requirements || []);
 
-`;
+    const panel = document.getElementById("requirements");
+    const list = document.getElementById("requirement-list");
+
+    const heading = document.getElementById("requirements-heading");
+
+    // CLEAR PREVIOUS REQUIREMENTS
+
+    list.innerHTML = "";
+
+    document.getElementById("service-name").textContent = name;
 
 
-});
+    // CHECK WHETHER REQUIREMENTS EXIST
 
+    const hasRequirements =
+        (Array.isArray(requirements) && requirements.length > 0) ||
+        (
+            requirements &&
+            typeof requirements === "object" &&
+            !Array.isArray(requirements) &&
+            Object.keys(requirements).length > 0
+        );
+
+
+    // HIDE PANEL IF THERE ARE NO REQUIREMENTS
+
+    if (!hasRequirements) {
+
+        panel.hidden = true;
+        return;
+
+    }
+
+
+    // SHOW REQUIREMENTS HEADING
+
+    heading.style.display = "block";
+
+
+    // GROUPED REQUIREMENTS FORMAT
+
+    if (
+        typeof requirements === "object" &&
+        !Array.isArray(requirements)
+    ) {
+
+        Object.entries(requirements).forEach(([category, items]) => {
+
+            const section = document.createElement("div");
+            section.className = "requirement-category";
+
+            const categoryHeading = document.createElement("h3");
+            categoryHeading.textContent = category;
+
+            const ul = document.createElement("ul");
+
+            items.forEach(item => {
+
+                const li = document.createElement("li");
+                li.textContent = item;
+
+                ul.appendChild(li);
+
+            });
+
+            section.append(categoryHeading, ul);
+
+            list.appendChild(section);
+
+        });
+
+    }
+
+
+    // SIMPLE REQUIREMENTS LIST FORMAT
+
+    else if (Array.isArray(requirements)) {
+
+        const ul = document.createElement("ul");
+
+        requirements.forEach(item => {
+
+            const li = document.createElement("li");
+            li.textContent = item;
+
+            ul.appendChild(li);
+
+        });
+
+        list.appendChild(ul);
+
+    }
+
+
+    // SHOW REQUIREMENTS PANEL
+
+    panel.hidden = false;
+
+    panel.scrollIntoView({
+        behavior: "smooth",
+        block: "center"
+    });
+
+}
+
+
+// LIVE DATE AND TIME
+
+function updateDateTime() {
+
+    const now = new Date();
+
+    document.getElementById("current-date").textContent =
+        now.toLocaleDateString("en-GB", {
+            weekday: "long",
+            year: "numeric",
+            month: "long",
+            day: "numeric"
+        });
+
+    document.getElementById("current-time").textContent =
+        now.toLocaleTimeString("en-GB", {
+            hour: "2-digit",
+            minute: "2-digit",
+            second: "2-digit",
+            hour12: false
+        });
+
+}
+
+updateDateTime();
+
+setInterval(updateDateTime, 1000);
 
 </script>
-
 
 </body>
 </html>
